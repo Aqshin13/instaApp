@@ -51,8 +51,10 @@ An Instagram-like social media application built with Java and Spring Boot for *
 ## 📦 Technologies Used
     Java 17
     
-    Spring Boot
+    Spring Boot(Thymleaf,Security,Data,MVC)
     
+    HTML,CSS,JS
+
     Maven
     
     Docker
