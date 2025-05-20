@@ -1,0 +1,34 @@
+body {background-color: #000 !important;}
+
+
+.custom-input {
+background-color: #333; /* Açık siyah */
+color: white !important; /* Yazı rengi beyaz */
+border: 1px solid #555; /* Kenarlık hafif gri */
+border-radius:0
+}
+
+.custom-input:focus {
+    outline: none !important;  /* Tarayıcı varsayılan mavi kenarlığını kaldırır */
+    box-shadow: none !important; /* Bootstrap'in glow efektini kaldırır */
+    background-color: #333 !important; /* İç rengin beyaza dönmesini engeller */
+    border: 1px solid #555 !important; /* Hafif bir gri kenarlık ekler */
+}
+.custom-input::placeholder {
+color: #aaa; /* Açık gri */
+}
+
+
+.login-button .btn{
+width:100%
+}
+
+a{
+text-decoration:none
+}
+
+.error-message{
+color:red;
+margin-top:10px;
+text-align:center;
+}

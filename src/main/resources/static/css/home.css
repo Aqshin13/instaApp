@@ -1,0 +1,53 @@
+.side-nav{
+height:100vh;
+position:fixed;
+border-right:1px solid gray;
+width:20vw;
+
+}
+
+.custom-nav li{
+margin-bottom:1rem !important;
+}
+
+.custom-nav li:hover{
+background-color:rgb(69,69,69);
+}
+
+.custom-nav li i{
+margin-right:0.5rem;
+}
+
+.main{
+max-width:80vw !important;
+display:flex !important;
+margin-left:20vw;
+}
+
+.friends{
+flex:1;
+padding:1rem;
+
+}
+
+.shares{
+flex:2;
+border-right:1px solid gray;
+}
+
+.friends li{
+margin-bottom:4px;
+background-color:rgb(69,69,69) !important;
+color:#fff
+
+}
+
+.main-image{
+border-bottom:1px solid gray;
+}
+
+.main-image i{
+font-size:1.5rem !important;
+}
+
+

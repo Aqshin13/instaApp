@@ -1,0 +1,55 @@
+.side-nav{
+height:100vh;
+position:fixed;
+border-right:1px solid gray;
+width:20vw;
+}
+
+.main{
+max-width:80vw !important;
+display:flex !important;
+margin-left:20vw;
+}
+
+.custom-nav li{
+margin-bottom:1rem !important;
+}
+
+.custom-nav li:hover{
+background-color:rgb(69,69,69);
+}
+
+.profile-header img{
+width:200px;
+border-radius:100%;
+height:200px;
+
+}
+
+
+.info{
+vertical-align:middle;
+}
+
+.info >div{
+margin-bottom:20px;
+}
+
+.info>div>*{
+margin-right:10px;
+}
+
+.container-main{
+border-bottom:1px solid gray;
+}
+
+
+.img-fluidw{
+width:100%;
+height:100%
+}
+
+.my-height{
+
+height:300px;
+}
