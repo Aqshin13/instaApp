@@ -6,7 +6,7 @@ An Instagram-like social media application built with Java and Spring Boot for *
 
 - Backend built with Java 17 and Spring Boot
 - Docker and Docker Compose support
-- Basic social media features (post sharing, user management,notification etc.)
+- Basic social media features (post sharing, add friends,notification etc.)
 
 > **Note:** Some features are still under development and may not be fully functional yet, such as:
 > - Commenting on posts
