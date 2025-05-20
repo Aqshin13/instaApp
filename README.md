@@ -1,6 +1,6 @@
 # instaApp
 
-An Instagram-like social media application built with Java and Spring Boot.  
+An Instagram-like social media application built with Java and Spring Boot for **learning and educational purposes only**.
 
 ## 🚀 Features
 
