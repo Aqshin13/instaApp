@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+
+  mysqldb:
+    image: mysql:5
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost","-uroot", "-proot" ]
+      timeout: 10s
+      retries: 10
+      interval: 10s
+      start_period: 10s
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: instaapp
+      MYSQL_PASSWORD: root
+    ports:
+      - "3307:3306"
+    networks:
+      - shared-net
+    volumes:
+      - ./mysql/data:/backup
+
+  app:
+    image: agshin13/instaapp:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/instaapp
+      - SERVER_PORT=8080
+      - spring.datasource.username=root
+      - spring.datasource.password=root
+    networks:
+      - shared-net
+    volumes:
+      - ./images/uploads:/instaApp/images/uploads
+      - ./images/profile:/instaApp/images/profile
+    restart: always
+
+
+networks:
+  shared-net:
+    driver: bridge

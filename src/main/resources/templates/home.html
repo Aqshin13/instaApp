@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body class="bg-dark">
+
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <button type="submit">Çıkış Yap</button>-->
+<!--</form>-->
+
+<aside class="side-nav">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark h-100 w-100" style="width: 280px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 ms-md-3 text-white text-decoration-none">
+            <span class="fs-4 d-none d-lg-block">InstaCloneApp</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills text-center text-md-start flex-column mb-auto custom-nav">
+            <li class="nav-item">
+                <a th:href="@{/home}" class="nav-link text-white" aria-current="page">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="d-none d-md-inline">Home</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#" class="nav-link text-white " data-bs-target="#showNotifications" data-bs-toggle="modal">
+                    <i class="fa-regular fa-heart ">
+                    </i>
+                    <span class="d-none d-md-inline"> Notifications</span>
+                    <span th:if="${requestCount>0}" th:text="${requestCount}" class=" fw-bold text-danger"></span>
+
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="nav-link text-white" data-bs-target="#createImage" data-bs-toggle="modal">
+                    <i class="fa-solid fa-square-plus"></i>
+                    <span class="d-none d-md-inline"> Create</span>
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/profile}" class="nav-link text-white">
+                    <img th:src="${user.imageUrl != null} ? @{ '/images/profile/' + ${user.imageUrl} } : @{ /image/default.jpg }"
+                         alt="User Image" style="width:30px; height:30px;border-radius:100%" />
+                    <span class="d-none d-md-inline" th:text="${#authentication.principal.username}"></span>
+                </a>
+            </li>
+
+
+        </ul>
+        <hr>
+        <a href="#" class="nav-link text-white">
+            More
+        </a>
+    </div>
+</aside>
+
+
+<main class="main bg-dark ">
+
+
+    <div class="shares mt-4 p-3">
+
+
+        <div th:each="imageRow : ${images}" class="p-2">
+            <div th:each="share : ${imageRow}">
+                <div th:switch="${(share.user.username == #authentication.principal.username) ? 'ACCEPTED' : followStatusMap[share.user.id]}">
+
+                    <div th:case="'ACCEPTED'" class="mb-3 main-image">
+                        <div class="d-flex justify-content-between align-item-center mb-2">
+
+                            <div>
+                                <img th:src="${share.user.imageUrl != null} ? @{ '/images/profile/' + ${share.user.imageUrl} }  : @{ /image/default.jpg }"
+                                     alt="User Image" style="width:30px; height:30px;border-radius:100%" />
+
+                                <span class=" text-white" th:text="${share.user.username}"></span>
+
+                            </div>
+
+
+
+
+                            <div th:if="${#authentication.principal.username==share.user.username}" class="dropdown">
+                                <button class="btn btn-dark border border-0"
+                                        type="button"
+                                        id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li>
+                                        <form th:action="@{/delete}" method="POST">
+                                            <input type="hidden" name="sharesId" th:value="${share.id}">
+                                            <button type="submit" class="dropdown-item">Delete</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+
+                        <img th:src="@{'/images/uploads/' + ${share.imageName}}" class="img-fluid" alt="Shared Image"/>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="friends mt-4 d-none d-lg-block">
+
+        <ul class="list-group list-group-flush">
+
+            <li class="list-group-item
+                 list-group-item-secondary
+                 d-flex align-items-center
+                 justify-content-between"
+                th:each="item : ${users}">
+
+               <div>
+                   <img th:src="${item.image != null} ? @{ '/images/profile/' + ${item.image} }  : @{ /image/default.jpg }"
+                        alt="User Image" style="width:30px; height:30px;border-radius:100%" />
+                   <span th:text="${item.username}"></span>
+               </div>
+<!--                <input type="hidden" name="userid" value="${item.id}">-->
+
+
+                <span th:switch="${followStatusMap[item.id]}">
+
+
+                          <form th:case="'PENDING'" th:action="@{/unfollow}" method="post">
+                             <input type="hidden" name="followingId" th:value="${item.id}"/>
+                             <button class="btn btn-dark" type="submit">Requested...
+                             </button>
+                          </form>
+
+
+
+                          <form th:case="'ACCEPTED'" th:action="@{/unfollow}" method="post">
+                             <input type="hidden" name="followingId" th:value="${item.id}"/>
+                              <button type="submit" class="btn btn-dark">Remove</button>
+                          </form>
+
+                    <!-- Eğer takip edilmiyorsa (None) -->
+                        <form th:case="*" th:action="@{/follow}" method="post">
+                            <input type="hidden" name="followingId" th:value="${item.id}"/>
+                            <button type="submit" class="btn btn-primary">Follow</button>
+                        </form>
+
+                    </span>
+            </li>
+
+        </ul>
+
+    </div>
+
+</main>
+
+
+<!--Error-->
+
+<div th:if="${param.error}">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="text-bg-danger toast fade show" role="alert" aria-live="assertive"
+             aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" th:text="${param.error}">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL-->
+
+<div class="modal fade" id="createImage" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 " id="exampleModalToggleLabel">Create</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="clearInput()"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/uploadImage}" method="post" enctype="multipart/form-data">
+
+
+                    <div class="input-group">
+                        <input type="file" class="input-group form-control" id="image" name="file" accept="image/*"
+                               onchange="previewImage(event)"/>
+                    </div>
+
+                    <div id="preview-container" style="display: none;">
+                        <img id="image-preview" src="" alt="Image Preview"
+                             style="max-width: 100%; height:100%;display: block;"/>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit" onsubmit="clearInput()">Share</button>
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="showNotifications" aria-hidden="true" aria-labelledby="showNotificationsAria"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 " id="showNotificationsAria">Notifications</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="clearInput()"></button>
+            </div>
+            <div class="modal-body">
+
+
+                    <ul th:each="request:${requests}">
+
+                        <li class="d-flex justify-content-between align-items-center">
+                            <span th:text="${request.follower.username}"></span>
+
+                            <div class="d-flex">
+                                <form th:action="@{/acceptRequest}" method="post">
+                                    <button class="btn btn-primary">Accept</button>
+                                    <input type="hidden" name="followIdq" id="followIdq" th:value="${request.id}">
+                                </form>
+                                <form th:action="@{/rejectRequest}" method="post">
+                                    <button class="btn btn-danger">Reject</button>
+                                    <input type="hidden" name="followId" id="followId" th:value="${request.id}">
+
+                                </form>
+                            </div>
+                        </li>
+
+                    </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<script th:src="@{/js/home.js}"></script>
+</body>
+</html>

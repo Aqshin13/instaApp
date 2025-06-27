@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+            integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <script th:src="@{/js/index.js}"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="raw">
+        <div class="col-8 col-md-6 col-lg-4 offset-2 offset-md-3 offset-lg-4 mt-5">
+            <div class="p-5 border border-1 border-secondary">
+
+                <h1 class="text-center text-white mb-3">InstaCloneApp</h1>
+                <form th:action="@{/login}" method="POST">
+                    <div class="mb-3">
+                        <input class="form-control custom-input" name="username" id="username" placeholder="username">
+                    </div>
+
+                    <div class="mb-3">
+                        <input class="form-control custom-input" name="password" id="password" placeholder="password">
+                    </div>
+                    <div class="login-button">
+                        <button disabled="true" id="login-btn" class="btn btn-primary" type="submit">Login</button>
+                    </div>
+                </form>
+
+                <p th:if="${param.error}" class="error-message" th:text="'Username or password is invalid'"></p>
+            </div>
+
+
+            <div class="under-login p-4 border border-1 border-secondary mt-3 text-center">
+                <span class="text-white me-2">Don't have an account</span>
+                <a class="text-primary fw-bold" th:href="@{/signup}">Sign
+                up</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>
