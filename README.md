@@ -60,7 +60,3 @@ An Instagram-like social media application built with Java and Spring Boot for *
     Docker
     
     Docker Compose
-
-### Watch the demo video
-
-[![Watch the video](https://img.youtube.com/vi/wX69rgODoAQ/maxresdefault.jpg)](https://youtu.be/wX69rgODoAQ)
